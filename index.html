@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3>To-do List</h3>
+    <div>
+        <input id="list" type="text" placeholder="tasks">
+        <button onclick="toAdd()" type="submit">Add</button>
+        <button onclick="toRemove()" type="submit">Remove</button>
+        <button onclick="toUpdate()" type="submit">Update</button>
+    </div>
+    <ol id="pending"></ol>
+    <ol id="completed"></ol>
+    <script>
+        const list=[];
+        const completedList=[];
+        //to add tasks
+        function toAdd(){
+            let el=`${document.querySelector("#list").value}`;
+            if(el==""){
+            alert("PLease add some tasks");
+            }
+            else{
+                list.push(el);
+                console.log(list);
+            }
+            toDisplay(list); 
+        }
+        //to remove tasks
+        function toRemove(){
+            let toDelete=`${document.querySelector("#list").value}`;
+            let flag=0;
+            console.log("in delete tasks");
+            for(let i=0;i<list.length;i++){
+                if(list[i]===toDelete){
+                    flag=1;
+                    list.splice(i,1);
+                    alert("Succesfully deleted");
+                    console.log("updated list:  "+ list);
+                    toDisplay(list);
+                    return;
+                }
+            }
+            if(flag==0){
+            let toDelete=`${document.querySelector("#list").value}`;
+            let flag=0;
+            console.log("in delete tasks");
+            for(let j=0;j<completedList.length;j++){
+                if(completedList[j]===toDelete){
+                    flag=1;
+                    completedList.splice(j,1);
+                    alert("Succesfully deleted");
+                    console.log("updated list:  "+ list);
+                    toDisplay(completedList);
+                    return;
+                }
+            } 
+            }
+            if(flag==0){
+                alert("Not present in the list");
+            }
+        }
+        //to Display
+        function toDisplay(data){
+            const ele=document.querySelector("#pending");
+            if(data.length==0){
+                ele.innerHTML="";
+                return;
+            }
+            ele.innerHTML="<h3>" +"STATUS: PENDING" +"</h3>";
+            for(let emp of data){
+                ele.innerHTML+="<li>"+emp+"</li>";
+            }
+        }
+        //to update
+        function toUpdate(){
+            let el=`${document.querySelector("#list").value}`;
+            if(el==""){
+            alert("PLease add some tasks");
+            }
+            else{
+                completedList.push(el);
+                console.log(completedList);
+            }
+            const ele=document.querySelector("#completed");
+            ele.innerHTML="<h3>"+"STATUS: COMPLETED" +"</h3>";
+            for(let i=0;i<completedList.length;i++){
+                ele.innerHTML+="<li>"+completedList[i]+"</li>";
+                let index=list.indexOf(completedList[i]);
+                list.splice(index,1);
+            }
+            toDisplay(list);
+        }
+    </script>
+</body>
+</html>
